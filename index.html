@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <link rel="icon" href="/svelte-layer-zoomable/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="content-security-policy" content=""><title>svelte-layer-zoomable</title>
+	<link rel="stylesheet" href="/svelte-layer-zoomable/_app/assets/vendor-ccb4874d.css">
+	<link rel="stylesheet" href="/svelte-layer-zoomable/_app/assets/pages/index.svelte-e8ceb585.css">
+	<link rel="modulepreload" href="/svelte-layer-zoomable/_app/start-7aa5798b.js">
+	<link rel="modulepreload" href="/svelte-layer-zoomable/_app/chunks/vendor-e0500188.js">
+	<link rel="modulepreload" href="/svelte-layer-zoomable/_app/layout.svelte-64aa1580.js">
+	<link rel="modulepreload" href="/svelte-layer-zoomable/_app/pages/index.svelte-4ddb979f.js">
+  </head>
+  <body>
+    <div>
+
+
+
+
+<h1>svelte-layer-zoomable</h1>
+<p>GitHub repository: <a href="https://github.com/mvolfik/svelte-layer-zoomable">mvolfik/svelte-layer-zoomable</a></p>
+<p>NPM: <a href="https://npmjs.com/package/svelte-layer-zoomable">svelte-layer-zoomable</a></p>
+<p style="font-weight: bold;">Note: do not confuse with <code>svelte-zoomable</code></p>
+<h2>Usage:</h2>
+<pre style="overflow: auto;"><code>&lt;script lang=&quot;ts&quot;&gt;
+  import Zoomable from &quot;svelte-layer-zoomable&quot;;
+  import type { MoveResize } from &quot;svelte-layer-zoomable&quot;;
+
+  let moveResize: MoveResize;
+  let transitionDuration = 0.2;
+  let minScale = 0.3;
+  let maxScale = 10;
+
+  // ...
+&lt;/script&gt;
+
+&lt;Zoomable
+  bind:moveResize
+  initialScale={1}
+  initialX={0.4}
+  initialY={0.4}
+  {transitionDuration}
+  {minScale}
+  {maxScale}
+&gt;
+  &lt;!-- layer content --&gt;
+&lt;/Zoomable&gt;
+&lt;p&gt;
+  &lt;button
+    on:click={() =&gt;
+      moveResize({ newScale: 1, newX: 0.4, newY: 0.4 })}
+  &gt;
+    Execute
+  &lt;/button&gt;
+&lt;/p&gt;
+  </code></pre>
+
+<div style="background-color: #ccc;">
+<div class="outer svelte-oxi4f5"><div class="inner svelte-oxi4f5" style="transform: scale(1) translate(NaNpx, NaNpx); transition-duration: 0.2s;"><div style="height: 100%; width: 100%; outline: 1px solid black; outline-offset: -1px;"><img src="/svelte-layer-zoomable/_app/assets/svelte-d72399d3.png" alt="Svelte logo"></div></div>
+</div></div>
+
+
+		<script type="module" data-hydrate="uele10">
+		import { start } from "/svelte-layer-zoomable/_app/start-7aa5798b.js";
+		start({
+			target: document.querySelector('[data-hydrate="uele10"]').parentNode,
+			paths: {"base":"/svelte-layer-zoomable","assets":"/svelte-layer-zoomable"},
+			session: {},
+			route: true,
+			spa: false,
+			trailing_slash: "never",
+			hydrate: {
+				status: 200,
+				error: null,
+				nodes: [
+					import("/svelte-layer-zoomable/_app/layout.svelte-64aa1580.js"),
+						import("/svelte-layer-zoomable/_app/pages/index.svelte-4ddb979f.js")
+				],
+				params: {}
+			}
+		});
+	</script></div>
+  </body>
+</html>
