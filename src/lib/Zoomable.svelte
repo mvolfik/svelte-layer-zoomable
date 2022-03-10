@@ -130,8 +130,8 @@
     style:width={innerWidth === undefined ? "100%" : `${innerWidth}px`}
     style:height={innerHeight === undefined ? "100%" : `${innerHeight}px`}
     class="inner"
-    style:transform="scale({scale}) translate({innerWidth * (0.5 - x)}px, {innerHeight *
-      (0.5 - y)}px)"
+    style:transform="translate({innerWidth * (0.5 - x) * scale}px, {innerHeight *
+      (0.5 - y) * scale}px) scale({scale})"
     style:transition-duration="{transition ? transitionDuration : 0}s"
   >
     <slot />
