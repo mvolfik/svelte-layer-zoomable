@@ -62,26 +62,29 @@
     return Math.min(Math.max(scale, minScale), maxScale);
   }
 
-  function zoom(newScale: number, _centerX: number, _centerY: number) {
+  function zoom(newScale: number, centerX: number, centerY: number) {
     if (moving) return;
-    // const divRect = div.getBoundingClientRect();
+    const divRect = outerDiv.getBoundingClientRect();
+    newScale = clipScale(newScale);
 
     // The following formula, but simplified
-    // const distFromCenter = centerX - (divRect.left + x);
-    // const widthFrac = distFromLeft / (divRect.width * scale);
-    // const newDistFromLeft = widthFrac * (divRect.width * newScale);
-    // const xChange = distFromLeft - newDistFromLeft;
-    newScale = clipScale(newScale);
-    // const xChange = ((scale - newScale) * (centerX - divRect.left - x)) / scale;
-    // const yChange = ((scale - newScale) * (centerY - divRect.top - y)) / scale;
+    // const widthChange = innerWidth * (newScale - scale);
+    // const centerInClientCoords = divRect.left + innerWidth / 2 + innerWidth * (0.5 - x) * scale;
+    // const distFromCenter = centerX - centerInClientCoords;
+    // const widthFrac = distFromCenter / (innerWidth * scale);
+    // const newDistFromCenter = widthFrac * (innerWidth * newScale);
+    // const shift = distFromCenter - newDistFromCenter;
+    // const newCenterInClientCoords = centerX - newDistFromCenter;
+    // const newX =
+    //   (-2 * newCenterInClientCoords + 2 * divRect.left + innerWidth * (newScale + 1)) /
+    //   (2 * newScale * innerWidth); // solve centerInClientCoords for x, replace scale with newScale
+    x -=
+      ((0.5 * innerWidth - centerX + divRect.left) * (newScale - scale)) /
+      (innerWidth * newScale * scale);
+    y -=
+      ((0.5 * innerHeight - centerY + divRect.top) * (newScale - scale)) /
+      (innerHeight * newScale * scale);
     scale = newScale;
-    // ({ x, y } = clipCoords({
-    //   x: x + xChange,
-    //   y: y + yChange,
-    //   width: divRect.width,
-    //   height: divRect.height,
-    //   scale,
-    // }));
   }
   onMount(() => {
     moveResize({ newX: initialX, newY: initialY, newScale: initialScale, withTransition: false });
