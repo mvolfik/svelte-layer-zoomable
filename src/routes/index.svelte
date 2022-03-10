@@ -139,6 +139,7 @@
       <Zoomable bind:moveResize {...$controls.initOpts} {...$controls.otherOpts}>
         <div class="inner">
           <img src={Image} alt="Svelte logo" />
+          <a href="https://svelte.dev/docs">Svelte docs</a>
         </div>
       </Zoomable>
     {/key}
@@ -157,8 +158,14 @@
     height: 100%;
     width: 100%;
   }
-  div.inner img {
+  div.inner > * {
     position: absolute;
+  }
+  div.inner img {
     width: 50rem;
+  }
+  div.inner a {
+    left: 25rem;
+    top: 10rem;
   }
 </style>

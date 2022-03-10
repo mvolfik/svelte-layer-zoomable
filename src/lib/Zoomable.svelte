@@ -112,6 +112,11 @@
   on:mousedown={(e) => {
     if (e.shiftKey || e.ctrlKey || e.altKey) return;
     if (e.buttons !== 1) return;
+    if (
+      // @ts-expect-error Can't include typescript here to explain to compiler
+      e.target.matches("a, a *, button, button *")
+    )
+      return;
     e.preventDefault();
     moving = true;
     moveStart = { x, ex: e.clientX, y, ey: e.clientY };
