@@ -1,7 +1,7 @@
 <script lang="ts">
   import { panel } from "svelte-knobby";
   import Zoomable, { type MoveResize } from "$lib/Zoomable.svelte";
-  import Image from "/src/assets/svelte.png";
+  import Image from "/src/assets/svelte.svg";
 
   let rerenderKey = 0;
   const controls = panel({
@@ -92,9 +92,11 @@
 </p>
 <p>NPM: <a href="https://npmjs.com/package/svelte-layer-zoomable">svelte-layer-zoomable</a></p>
 <p style:font-weight="bold">Note: do not confuse with <code>svelte-zoomable</code></p>
-<h2>Usage:</h2>
-<pre style="overflow: auto;"><code
-    >&lt;script lang="ts"&gt;
+<div class="layout">
+  <div class="usage">
+    <h2>Usage:</h2>
+    <pre style:overflow="auto"><code
+        >&lt;script lang="ts"&gt;
   import Zoomable from "svelte-layer-zoomable";
   import type &lbrace; MoveResize &rbrace; from "svelte-layer-zoomable";
 
@@ -121,28 +123,54 @@
   &lt;button
     on:click=&lbrace;() =&gt;
       moveResize({JSON.stringify($controls.moveResize)
-      .replace(',"withTransition":true', "")
-      .replaceAll('":', ": ")
-      .replaceAll(',"', ", ")
-      .replace('{"', "{ ")
-      .replace("}", " }")})&rbrace;
+          .replace(',"withTransition":true', "")
+          .replaceAll('":', ": ")
+          .replaceAll(',"', ", ")
+          .replace('{"', "{ ")
+          .replace("}", " }")})&rbrace;
   &gt;
     Execute
   &lt;/button&gt;
 &lt;/p&gt;
   </code></pre>
-
-<div style:background-color="#ccc">
-  {#key rerenderKey}
-    <Zoomable bind:moveResize {...$controls.initOpts} {...$controls.otherOpts}>
-      <div
-        style:height="100%"
-        style:width="100%"
-        style:outline="1px solid black"
-        style:outline-offset="-1px"
-      >
-        <img src={Image} alt="Svelte logo" />
-      </div>
-    </Zoomable>
-  {/key}
+  </div>
+  <div class="outer">
+    {#key rerenderKey}
+      <Zoomable bind:moveResize {...$controls.initOpts} {...$controls.otherOpts}>
+        <div class="inner">
+          <img src={Image} alt="Svelte logo" />
+        </div>
+      </Zoomable>
+    {/key}
+  </div>
 </div>
+
+<style>
+  div.layout {
+    display: flex;
+  }
+  @media (max-width: 70rem) {
+    div.layout {
+      flex-direction: column;
+    }
+    div.outer {
+      height: 50vh;
+      width: 100%;
+      flex: unset !important;
+    }
+  }
+  div.outer {
+    background-color: #ccc;
+    flex: 1;
+  }
+  div.inner {
+    outline: 1px solid black;
+    outline-offset: -1px;
+    height: 100%;
+    width: 100%;
+  }
+  div.inner img {
+    position: absolute;
+    width: 50rem;
+  }
+</style>
