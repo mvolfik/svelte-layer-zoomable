@@ -146,22 +146,10 @@
 </div>
 
 <style>
-  div.layout {
-    display: flex;
-  }
-  @media (max-width: 70rem) {
-    div.layout {
-      flex-direction: column;
-    }
-    div.outer {
-      height: 50vh;
-      width: 100%;
-      flex: unset !important;
-    }
-  }
   div.outer {
+    height: 50vh;
+    max-width: 60rem;
     background-color: #ccc;
-    flex: 1;
   }
   div.inner {
     outline: 1px solid black;

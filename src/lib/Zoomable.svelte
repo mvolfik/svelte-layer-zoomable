@@ -33,14 +33,15 @@
   export let minScale = 0.3;
 
   let transition = true;
-  let div: HTMLDivElement;
+  let outerDiv: HTMLDivElement;
+  let innerDiv: HTMLDivElement;
   let scale = initialScale;
   let x = initialX;
   let y = initialY;
   let moving = false;
   let moveStart: undefined | { x: number; ex: number; y: number; ey: number };
-  let outerWidth: number;
-  let outerHeight: number;
+  let innerWidth: number;
+  let innerHeight: number;
 
   /** Move and rescale to given parameters. `undefined` values remain unchanged
    *
@@ -82,9 +83,12 @@
     //   scale,
     // }));
   }
-  onMount(() =>
-    moveResize({ newX: initialX, newY: initialY, newScale: initialScale, withTransition: false }),
-  );
+  onMount(() => {
+    moveResize({ newX: initialX, newY: initialY, newScale: initialScale, withTransition: false });
+    const rect = outerDiv.getBoundingClientRect();
+    innerHeight = rect.height;
+    innerWidth = rect.width;
+  });
 </script>
 
 <svelte:window
@@ -93,15 +97,13 @@
     if (!moving || moveStart === undefined) return;
     if (e.shiftKey || e.ctrlKey || e.altKey) return;
 
-    x = moveStart.x + (moveStart.ex - e.clientX) / (outerWidth * scale);
-    y = moveStart.y + (moveStart.ey - e.clientY) / (outerHeight * scale);
+    x = moveStart.x + (moveStart.ex - e.clientX) / (innerWidth * scale);
+    y = moveStart.y + (moveStart.ey - e.clientY) / (innerHeight * scale);
   }}
 />
 <div
   class="outer"
-  bind:this={div}
-  bind:clientWidth={outerWidth}
-  bind:clientHeight={outerHeight}
+  bind:this={outerDiv}
   on:wheel={(e) => {
     if (e.shiftKey || e.ctrlKey || e.altKey) return;
     zoom(scale * (1 - e.deltaY * 0.001), e.clientX, e.clientY);
@@ -116,8 +118,11 @@
   }}
 >
   <div
+    bind:this={innerDiv}
+    style:width={innerWidth === undefined ? "100%" : `${innerWidth}px`}
+    style:height={innerHeight === undefined ? "100%" : `${innerHeight}px`}
     class="inner"
-    style:transform="scale({scale}) translate({outerWidth * (0.5 - x)}px, {outerHeight *
+    style:transform="scale({scale}) translate({innerWidth * (0.5 - x)}px, {innerHeight *
       (0.5 - y)}px)"
     style:transition-duration="{transition ? transitionDuration : 0}s"
   >
@@ -132,6 +137,7 @@
   div.inner {
     transform-origin: center;
     transition: transform ease-out;
+    position: relative;
   }
   div.outer,
   div.inner {
